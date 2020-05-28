@@ -1,8 +1,24 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
+import api from '../../services/api'
+
 const Header = () => {
+    const [balanceTotal, setBalanceTotal] = useState(0)
+
+    useEffect(()=>{
+        async function loadBalanceTotal(){
+            const response = await api.get('/accounts')
+            const balance = response.data.reduce((acumulador, valorAtual)=>{
+                return parseFloat(acumulador) + parseFloat(valorAtual.balance)
+            }, 0)
+            setBalanceTotal(balance)
+        }
+        loadBalanceTotal()
+    },[])
+
+
     return(
         <View style={styles.container}>
             <View style={styles.boxBalance}>
@@ -12,7 +28,7 @@ const Header = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.boxBalanceButton}>
                     <Text style={styles.boxBalanceSaldo}>Saldo Total</Text>
-                    <Text style={styles.boxBalanceValue}>R$ 5.250,00</Text>
+                    <Text style={styles.boxBalanceValue}>R$ {balanceTotal}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -23,9 +39,9 @@ const styles = StyleSheet.create({
     container:{
         height:220,
         backgroundColor:"#7E3AD6",
-        alignItems:"center",
+        alignItems:"center"
     },
-
+    
     boxBalance:{
         flex:1,
         alignItems:"center",
