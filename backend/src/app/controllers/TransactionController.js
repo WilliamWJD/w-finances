@@ -6,7 +6,17 @@ import Category from '../models/Category'
 class TransactionController{
     async index(req, res){
         const transaction = await Transaction.findAll({
-            include: { model: Category, attributes:['id', 'description', 'type'] }
+            include: [
+                {
+                    model: Category, 
+                    attributes:['id', 'description'] 
+                },
+                {
+                    model: Account,
+                    attributes: ['id', 'description']
+                }
+            ],
+            attributes: ["id","description","type","amount"]
         })
         return res.json(transaction)
     }

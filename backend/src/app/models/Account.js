@@ -12,7 +12,7 @@ class Account extends Model{
     }
 
     static associate(models){
-        // this.hasMany(models.Transacoes)
+        this.hasMany(models.Transaction)
     }
 }
 
