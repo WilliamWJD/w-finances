@@ -10,7 +10,7 @@ const FabButton = () => {
                 <MaterialIcons name="account-balance" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor='#3498db' title="Categorias" onPress={() => { }}>
-                <MaterialIcons name="category" style={styles.actionButtonIcon} />
+                <MaterialIcons name="receipt" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor='#27ae60' title="Receitas" onPress={() => { }}>
                 <MaterialIcons name="call-made" style={styles.actionButtonIcon} />

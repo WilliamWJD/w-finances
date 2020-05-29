@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import Svg, { Circle } from 'react-native-svg'
 
 import api from '../../services/api'
@@ -10,7 +10,6 @@ const Transactions = () => {
     useEffect(()=>{
         async function loadTransactions(){
             const response = await api.get('/transactions')
-            console.log(response.data)
             setTransactions(response.data)
         }
         loadTransactions()
@@ -19,7 +18,7 @@ const Transactions = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.containerTitle}>Transações</Text>
-            <View style={styles.transactionsContainer}>
+            <ScrollView style={styles.transactionsContainer}>
                 {transactions.map(transac => (
                     <TouchableOpacity 
                         style={styles.transaction} 
@@ -38,7 +37,7 @@ const Transactions = () => {
                         <Text style={styles.transactionLegendValue}>R$: {transac.amount}</Text>
                     </TouchableOpacity>
                 ))}
-            </View>
+            </ScrollView>
         </View>
     )
 }
