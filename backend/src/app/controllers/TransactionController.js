@@ -9,7 +9,7 @@ class TransactionController{
             include: [
                 {
                     model: Category, 
-                    attributes:['id', 'description', 'color'] 
+                    attributes:['id', 'description', 'color', 'type'] 
                 },
                 {
                     model: Account,

@@ -10,6 +10,7 @@ const Transactions = () => {
     useEffect(()=>{
         async function loadTransactions(){
             const response = await api.get('/transactions')
+            console.log(response.data)
             setTransactions(response.data)
         }
         loadTransactions()
@@ -34,7 +35,7 @@ const Transactions = () => {
                                 <Text style={styles.transactionLegendCategory}>{transac.Category.description} | {transac.Account.description}</Text>
                             </View>
                         </View>
-                        <Text style={styles.transactionLegendValue}>R$: {transac.amount}</Text>
+                        <Text style={[transac.Category.type==="DESPESAS" ? {color:"#e74c3c"}:{color:"#27ae60"}, styles.transactionLegendValue] }>R$: {transac.amount}</Text>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
     },
 
     transactionLegendValue: {
-        color: "#E74C3C",
         fontWeight: "bold"
     }
 
