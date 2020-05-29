@@ -7,24 +7,24 @@ import api from '../../services/api'
 const Transactions = () => {
     const [transactions, setTransactions] = useState([])
 
-    useEffect(()=>{
-        async function loadTransactions(){
+    useEffect(() => {
+        async function loadTransactions() {
             const response = await api.get('/transactions')
             console.log(response.data)
             setTransactions(response.data)
         }
         loadTransactions()
-    },[])
+    }, [])
 
     return (
         <View style={styles.container}>
             <Text style={styles.containerTitle}>Transações</Text>
             <ScrollView style={styles.transactionsContainer}>
                 {transactions.map(transac => (
-                    <TouchableOpacity 
-                        style={styles.transaction} 
+                    <TouchableOpacity
+                        style={styles.transaction}
                         key={transac.id}
-                        onLongPress={()=>Alert.alert(transac.description)}
+                        onLongPress={() => Alert.alert(transac.description)}
                     >
                         <View style={styles.transactionBox}>
                             <Svg height="40" width="40" viewBox="0 0 100 100">
@@ -35,7 +35,19 @@ const Transactions = () => {
                                 <Text style={styles.transactionLegendCategory}>{transac.Category.description} | {transac.Account.description}</Text>
                             </View>
                         </View>
-                        <Text style={[transac.Category.type==="DESPESAS" ? {color:"#e74c3c"}:{color:"#27ae60"}, styles.transactionLegendValue] }>R$: {transac.amount}</Text>
+                        <Text
+                            style={[
+                                transac.Category.type === "DESPESAS"
+                                    ? { color: "#e74c3c" }
+                                    : { color: "#27ae60" }
+                                , styles.transactionLegendValue
+                            ]}
+                        >
+                            {transac.Category.type === "DESPESAS"
+                                ? `- R$: ${transac.amount}`
+                                : `R$: ${transac.amount}`
+                            }
+                        </Text>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
@@ -65,7 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom:10
+        marginBottom: 10
     },
 
     transactionBox: {
