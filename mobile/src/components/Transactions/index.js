@@ -1,70 +1,41 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import Svg, { Circle } from 'react-native-svg'
 
-const Transactions = () => {
-    const [transactions, setTransactions] = useState([
-        {
-            id: 1,
-            description: "Mercado",
-            category: {
-                id: 1,
-                description: "Alimentação",
-                color:"#e74c3c"
-            },
-            account: {
-                id: 1,
-                description: "Conta corrente"
-            },
-            ammount: 250
-        },
-        {
-            id: 2,
-            description: "Lanche",
-            category: {
-                id: 3,
-                description: "Lanche",
-                color:"#34495e"
-            },
-            account: {
-                id: 1,
-                description: "Conta corrente"
-            },
-            ammount: 50
-        },
-        {
-            id: 3,
-            description: "Remédio",
-            category: {
-                id: 2,
-                description: "Farmacia",
-                color:"#2980b9"
-            },
-            account: {
-                id: 2,
-                description: "Carteira"
-            },
-            ammount: 75.50
-        },
+import api from '../../services/api'
 
-    ])
+const Transactions = () => {
+    const [transactions, setTransactions] = useState([])
+
+    useEffect(()=>{
+        async function loadTransactions(){
+            const response = await api.get('/transactions')
+            console.log(response.data)
+            setTransactions(response.data)
+        }
+        loadTransactions()
+    },[])
 
     return (
         <View style={styles.container}>
             <Text style={styles.containerTitle}>Transações</Text>
             <View style={styles.transactionsContainer}>
                 {transactions.map(transac => (
-                    <TouchableOpacity style={styles.transaction} key={transac.id}>
+                    <TouchableOpacity 
+                        style={styles.transaction} 
+                        key={transac.id}
+                        onLongPress={()=>Alert.alert(transac.description)}
+                    >
                         <View style={styles.transactionBox}>
                             <Svg height="40" width="40" viewBox="0 0 100 100">
-                                <Circle cx="50" cy="50" r="45" strokeWidth="2.5" fill={transac.category.color} />
+                                <Circle cx="50" cy="50" r="45" strokeWidth="2.5" fill={transac.Category.color} />
                             </Svg>
                             <View style={styles.transactionLegend}>
                                 <Text style={styles.transactionLegendTitle}>{transac.description}</Text>
-                                <Text style={styles.transactionLegendCategory}>{transac.category.description} | {transac.account.description}</Text>
+                                <Text style={styles.transactionLegendCategory}>{transac.Category.description} | {transac.Account.description}</Text>
                             </View>
                         </View>
-                        <Text style={styles.transactionLegendValue}>R$: {transac.ammount}</Text>
+                        <Text style={styles.transactionLegendValue}>R$: {transac.amount}</Text>
                     </TouchableOpacity>
                 ))}
             </View>

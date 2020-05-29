@@ -12,12 +12,11 @@ const Home = () => {
             <Header />
             <PanelTypes />
             <Transactions />
+
             <FabButton />
         </View>
     )
 }
-
-export default Home
 
 const styles = StyleSheet.create({
     container: {
@@ -25,6 +24,9 @@ const styles = StyleSheet.create({
         marginTop: 22,
     },
 })
+
+export default Home
+
 
 
 
